@@ -1,0 +1,11 @@
+PRETTY_NAME="Soadium OS 1.0 (Beta)"
+NAME="Soadium OS"
+VERSION_ID="1.0"
+VERSION="1.0 (Beta)"
+ID=soadium
+ID_LIKE=ubuntu
+HOME_URL="https://github.com/ssoad/Soadium"
+SUPPORT_URL="https://github.com/ssoad/Soadium/issues"
+BUG_REPORT_URL="https://github.com/ssoad/Soadium/issues"
+PRIVACY_POLICY_URL="https://github.com/ssoad/Soadium/blob/main/PRIVACY.md"
+UBUNTU_CODENAME=noble

@@ -24,6 +24,7 @@ echo "This will modify your system configurations, install packages, and change 
 echo "Please ensure you have internet connection and sudo privileges."
 echo ""
 read -p "Press [Enter] to continue or Ctrl+C to abort..."
+echo ""
 
 # Check Sudo
 sudo -v
