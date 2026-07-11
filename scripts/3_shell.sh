@@ -5,39 +5,34 @@ set -e
 GREEN='\033[0;32m'
 NC='\033[0m'
 
-echo -e "${GREEN}[+] Setting up Shell (Zsh + Starship)...${NC}"
+echo -e "${GREEN}[+] Setting up Shell (Zsh + Starship, stable releases)...${NC}"
 
-# 1. Install Zsh
+# 1. Install Zsh (Ubuntu LTS stable package)
 echo "Installing Zsh..."
 sudo apt-get install -y zsh
 
-# 2. Install Starship
+# 2. Install Starship (official installer, latest stable release)
 echo "Installing Starship Prompt..."
 if ! command -v starship &> /dev/null; then
     curl -sS https://starship.rs/install.sh | sh -s -- -y
 fi
 
-# 3. Install Zsh Plugins
-echo "Installing Zsh Plugins..."
-ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
-# We aren't installing Oh My Zsh explicitly to keep it lighter, but using a similar structure for plugins if the user wants OMZ later, or we can use a simple plugin manager.
-# Let's use a manual plugin setup for simplicity and speed without the OMZ bulk, or just install OMZ non-interactively.
-# Standard Approach: Install Oh My Zsh properly
+# 3. Install Oh My Zsh (unattended; master is its stable release channel)
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 fi
 
+# 4. Zsh plugins (shallow clones of the maintained stable branches)
+echo "Installing Zsh Plugins..."
 ZSH_CUSTOM="$HOME/.oh-my-zsh/custom"
-# Autosuggestions
 if [ ! -d "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]; then
-    git clone https://github.com/zsh-users/zsh-autosuggestions "$ZSH_CUSTOM/plugins/zsh-autosuggestions"
+    git clone --depth 1 https://github.com/zsh-users/zsh-autosuggestions "$ZSH_CUSTOM/plugins/zsh-autosuggestions"
 fi
-# Syntax Highlighting
 if [ ! -d "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" ]; then
-    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
+    git clone --depth 1 https://github.com/zsh-users/zsh-syntax-highlighting.git "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
 fi
 
-# 4. Configure .zshrc
+# 5. Configure .zshrc
 echo "Configuring .zshrc..."
 cat <<EOF > "$HOME/.zshrc"
 export ZSH="\$HOME/.oh-my-zsh"
@@ -50,6 +45,16 @@ source \$ZSH/oh-my-zsh.sh
 # Starship init
 eval "\$(starship init zsh)"
 
+# nvm (Node.js LTS)
+export NVM_DIR="\$HOME/.nvm"
+[ -s "\$NVM_DIR/nvm.sh" ] && \. "\$NVM_DIR/nvm.sh"
+
+# pipx-installed CLI tools
+export PATH="\$HOME/.local/bin:\$PATH"
+
+# thefuck (command correction), if installed
+command -v thefuck > /dev/null && eval "\$(thefuck --alias)"
+
 # Aliases
 alias ll='ls -alF'
 alias cls='clear'
@@ -60,6 +65,6 @@ export EDITOR='code'
 EOF
 
 echo "Changing default shell to zsh..."
-chsh -s $(which zsh) || true
+chsh -s "$(which zsh)" || true
 
 echo -e "${GREEN}[+] Shell Setup Complete! Please log out and back in.${NC}"

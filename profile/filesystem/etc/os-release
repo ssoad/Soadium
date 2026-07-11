@@ -1,7 +1,7 @@
-PRETTY_NAME="Soadium OS 1.0 (Beta)"
+PRETTY_NAME="Soadium OS 1.0 LTS (Stable)"
 NAME="Soadium OS"
 VERSION_ID="1.0"
-VERSION="1.0 (Beta)"
+VERSION="1.0 LTS (Stable)"
 ID=soadium
 ID_LIKE=ubuntu
 HOME_URL="https://github.com/ssoad/Soadium"
