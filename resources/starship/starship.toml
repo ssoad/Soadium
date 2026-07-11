@@ -1,0 +1,78 @@
+# Soadium OS - Starship prompt theme
+# Hexagon glyph, sodium-flame accent, iris/cyan structure.
+"$schema" = 'https://starship.rs/config-schema.json'
+
+add_newline = true
+palette = "soadium"
+
+format = """
+[⬢](flame) $username$hostname$directory$git_branch$git_status$python$nodejs$rust$golang$docker_context$cmd_duration
+$character"""
+
+[palettes.soadium]
+flame = "#FACC15"
+iris = "#818CF8"
+cyan = "#22D3EE"
+text = "#E2E8F0"
+muted = "#64748B"
+error = "#F87171"
+
+[character]
+success_symbol = "[❯](bold cyan)"
+error_symbol = "[❯](bold error)"
+
+[username]
+style_user = "bold text"
+format = "[$user]($style) "
+show_always = false
+
+[hostname]
+ssh_only = true
+style = "muted"
+format = "[@$hostname]($style) "
+
+[directory]
+style = "bold iris"
+truncation_length = 3
+truncate_to_repo = true
+format = "[$path]($style)[$read_only](error) "
+
+[git_branch]
+symbol = " "
+style = "flame"
+format = "[$symbol$branch]($style) "
+
+[git_status]
+style = "muted"
+format = "([$all_status$ahead_behind]($style) )"
+
+[python]
+symbol = "󰌠 "
+style = "cyan"
+format = '[$symbol$pyenv_prefix($version )(\($virtualenv\) )]($style)'
+
+[nodejs]
+symbol = "󰎙 "
+style = "cyan"
+format = "[$symbol($version )]($style)"
+
+[rust]
+symbol = "󱘗 "
+style = "cyan"
+format = "[$symbol($version )]($style)"
+
+[golang]
+symbol = "󰟓 "
+style = "cyan"
+format = "[$symbol($version )]($style)"
+
+[docker_context]
+symbol = "󰡨 "
+style = "iris"
+format = "[$symbol$context]($style) "
+only_with_files = true
+
+[cmd_duration]
+min_time = 2000
+style = "muted"
+format = "[took $duration]($style) "

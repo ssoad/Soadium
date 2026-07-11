@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3840 2160" width="3840" height="2160">
+  <!-- Soadium OS default wallpaper (4K) -->
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#101430"/>
+      <stop offset="0.55" stop-color="#0B1021"/>
+      <stop offset="1" stop-color="#060913"/>
+    </linearGradient>
+    <radialGradient id="irisGlow" cx="0.18" cy="0.12" r="0.6">
+      <stop offset="0" stop-color="#6366F1" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#6366F1" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="cyanGlow" cx="0.82" cy="0.78" r="0.65">
+      <stop offset="0" stop-color="#22D3EE" stop-opacity="0.13"/>
+      <stop offset="1" stop-color="#22D3EE" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="flameGlow">
+      <stop offset="0" stop-color="#FACC15" stop-opacity="0.8"/>
+      <stop offset="1" stop-color="#FACC15" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="hexStroke" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6366F1"/>
+      <stop offset="1" stop-color="#22D3EE"/>
+    </linearGradient>
+    <linearGradient id="essStroke" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#A5B4FC"/>
+      <stop offset="1" stop-color="#22D3EE"/>
+    </linearGradient>
+    <pattern id="dotGrid" width="96" height="96" patternUnits="userSpaceOnUse">
+      <circle cx="48" cy="48" r="2.2" fill="#334155" opacity="0.35"/>
+    </pattern>
+  </defs>
+
+  <!-- Base -->
+  <rect width="3840" height="2160" fill="url(#sky)"/>
+  <rect width="3840" height="2160" fill="url(#dotGrid)"/>
+  <rect width="3840" height="2160" fill="url(#irisGlow)"/>
+  <rect width="3840" height="2160" fill="url(#cyanGlow)"/>
+
+  <!-- Faint oversized hexagon, bleeding off the right edge -->
+  <g transform="translate(2350,180) scale(3.4)" opacity="0.10">
+    <polygon points="256,46 437.9,151 437.9,361 256,466 74.1,361 74.1,151"
+             fill="none" stroke="url(#hexStroke)" stroke-width="10" stroke-linejoin="round"/>
+  </g>
+
+  <!-- The mark as a quiet constellation, right of center -->
+  <g transform="translate(2470,560) scale(1.9)" opacity="0.5">
+    <ellipse cx="256" cy="260" rx="150" ry="56" fill="none"
+             stroke="#3B4368" stroke-width="4"
+             transform="rotate(-24 256 260)"/>
+    <path d="M 316 200 A 60 60 0 1 0 256 260 A 60 60 0 1 1 196 320"
+          fill="none" stroke="url(#essStroke)"
+          stroke-width="24" stroke-linecap="round" opacity="0.85"/>
+    <circle cx="393" cy="221" r="30" fill="url(#flameGlow)"/>
+    <circle cx="393" cy="221" r="10" fill="#FACC15"/>
+    <circle cx="119" cy="299" r="7" fill="#22D3EE"/>
+  </g>
+
+  <!-- Scattered electrons -->
+  <circle cx="620"  cy="1690" r="6" fill="#22D3EE" opacity="0.5"/>
+  <circle cx="980"  cy="420"  r="5" fill="#818CF8" opacity="0.5"/>
+  <circle cx="1660" cy="1880" r="4" fill="#FACC15" opacity="0.45"/>
+  <circle cx="3300" cy="360"  r="5" fill="#22D3EE" opacity="0.4"/>
+  <circle cx="240"  cy="980"  r="4" fill="#FACC15" opacity="0.35"/>
+</svg>

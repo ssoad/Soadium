@@ -1,0 +1,17 @@
+# Soadium OS default desktop settings (baked into the ISO)
+
+[org.gnome.desktop.background]
+picture-uri='file:///usr/share/backgrounds/soadium/soadium-wallpaper.svg'
+picture-uri-dark='file:///usr/share/backgrounds/soadium/soadium-wallpaper.svg'
+picture-options='zoom'
+primary-color='#0B1021'
+
+[org.gnome.desktop.screensaver]
+picture-uri='file:///usr/share/backgrounds/soadium/soadium-wallpaper.svg'
+primary-color='#0B1021'
+
+[org.gnome.desktop.interface]
+color-scheme='prefer-dark'
+
+[org.gnome.shell]
+favorite-apps=['org.gnome.Nautilus.desktop', 'brave-browser.desktop', 'code_code.desktop', 'org.gnome.Terminal.desktop', 'org.gnome.Settings.desktop']

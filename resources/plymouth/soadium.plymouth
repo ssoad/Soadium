@@ -1,0 +1,8 @@
+[Plymouth Theme]
+Name=Soadium
+Description=Soadium OS boot splash - hexagon mark on deep space
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/soadium
+ScriptFile=/usr/share/plymouth/themes/soadium/soadium.script

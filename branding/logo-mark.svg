@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- Soadium OS logo mark
+       Concept: "S" drawn as an electron orbit inside a hexagonal crystal badge.
+       Soadium = ssoad + sodium (Na, element 11) - the yellow electron is the
+       sodium flame test color. -->
+  <defs>
+    <linearGradient id="hexStroke" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6366F1"/>
+      <stop offset="1" stop-color="#22D3EE"/>
+    </linearGradient>
+    <linearGradient id="essStroke" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#A5B4FC"/>
+      <stop offset="1" stop-color="#22D3EE"/>
+    </linearGradient>
+    <radialGradient id="flameGlow">
+      <stop offset="0" stop-color="#FACC15" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#FACC15" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="badgeGlow" cx="0.5" cy="0.42" r="0.75">
+      <stop offset="0" stop-color="#1E2547"/>
+      <stop offset="1" stop-color="#0B1021"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Hexagonal crystal badge -->
+  <polygon points="256,46 437.9,151 437.9,361 256,466 74.1,361 74.1,151"
+           fill="url(#badgeGlow)" stroke="url(#hexStroke)"
+           stroke-width="22" stroke-linejoin="round"/>
+
+  <!-- Electron orbit ring -->
+  <ellipse cx="256" cy="260" rx="150" ry="56" fill="none"
+           stroke="#3B4368" stroke-width="6"
+           transform="rotate(-24 256 260)"/>
+
+  <!-- The "S": two tangent orbit arcs -->
+  <path d="M 316 200 A 60 60 0 1 0 256 260 A 60 60 0 1 1 196 320"
+        fill="none" stroke="url(#essStroke)"
+        stroke-width="34" stroke-linecap="round"/>
+
+  <!-- Sodium-flame electron on the orbit (Na burns yellow) -->
+  <circle cx="393" cy="221" r="36" fill="url(#flameGlow)"/>
+  <circle cx="393" cy="221" r="14" fill="#FACC15"/>
+
+  <!-- Companion electron -->
+  <circle cx="119" cy="299" r="9" fill="#22D3EE"/>
+</svg>

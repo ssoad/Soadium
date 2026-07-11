@@ -1,0 +1,64 @@
+#!/bin/bash
+# soadium-fetch - Soadium OS system info, zero dependencies.
+# The hexagon-S logo in brand colors, sodium-flame electron included.
+
+# Brand colors (256-color)
+IR='\033[38;5;99m'    # Iris (indigo)
+IL='\033[38;5;111m'   # Iris light
+CY='\033[38;5;51m'    # Electron cyan
+FL='\033[38;5;220m'   # Sodium flame
+TX='\033[38;5;253m'   # Slate text
+MU='\033[38;5;244m'   # Muted
+BD='\033[1m'
+NC='\033[0m'
+
+# --- Gather info -------------------------------------------------------------
+os_name=$(. /etc/os-release 2>/dev/null && echo "$PRETTY_NAME")
+os_name=${os_name:-"Soadium OS"}
+kernel=$(uname -r)
+host="${USER:-$(whoami)}@$(hostname)"
+up=$(uptime -p 2>/dev/null | sed 's/^up //')
+up=${up:-unknown}
+shell_name=$(basename "${SHELL:-sh}")
+cpu=$(awk -F': ' '/model name/{print $2; exit}' /proc/cpuinfo 2>/dev/null)
+cpu=${cpu:-unknown}
+mem=$(free -h 2>/dev/null | awk '/^Mem:/{print $3 " / " $2}')
+mem=${mem:-unknown}
+disk=$(df -h / 2>/dev/null | awk 'NR==2{print $3 " / " $2 " (" $5 ")"}')
+disk=${disk:-unknown}
+de="${XDG_CURRENT_DESKTOP:-tty}"
+
+# --- Logo (frame: iris->cyan, S: sodium flame) --------------------------------
+L=()
+L+=("${IR}    ▗▄▄▄▄▄▄▄▄▖    ${NC}")
+L+=("${IR}   ▟▛        ▜▙   ${NC}")
+L+=("${IL}  ▟▛   ${FL}▄▄▄▄${IL}   ▜▙  ${NC}")
+L+=("${IL} ▐▌    ${FL}█▄▄▄${IL}    ▐▌ ${NC}")
+L+=("${CY} ▐▌    ${FL}▄▄▄█${CY}    ▐▌ ${NC}")
+L+=("${CY}  ▜▙   ${FL}▀▀▀▀${CY}   ▟▛  ${NC}")
+L+=("${CY}   ▜▙        ▟▛   ${NC}")
+L+=("${CY}    ▝▀▀▀▀▀▀▀▀▘  ${FL}●${NC}")
+
+# --- Info --------------------------------------------------------------------
+I=()
+I+=("${BD}${TX}${host}${NC}")
+I+=("${MU}────────────────────────────${NC}")
+I+=("${FL}OS${NC}      ${TX}${os_name}${NC}")
+I+=("${FL}Kernel${NC}  ${TX}${kernel}${NC}")
+I+=("${FL}Uptime${NC}  ${TX}${up}${NC}")
+I+=("${FL}Shell${NC}   ${TX}${shell_name}${NC}")
+I+=("${FL}DE${NC}      ${TX}${de}${NC}")
+I+=("${FL}CPU${NC}     ${TX}${cpu:0:40}${NC}")
+I+=("${FL}Memory${NC}  ${TX}${mem}${NC}")
+I+=("${FL}Disk /${NC}  ${TX}${disk}${NC}")
+
+# --- Render side by side -------------------------------------------------------
+echo
+rows=${#I[@]}
+for ((i = 0; i < rows; i++)); do
+    logo_line="${L[$i]:-                  }"
+    printf "  %b   %b\n" "$logo_line" "${I[$i]}"
+done
+echo
+printf "  ${MU}colors${NC}  ${IR}⬢ ${IL}⬢ ${CY}⬢ ${FL}⬢ ${TX}⬢ ${MU}⬢${NC}\n"
+echo

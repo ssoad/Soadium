@@ -59,6 +59,7 @@ command -v thefuck > /dev/null && eval "\$(thefuck --alias)"
 alias ll='ls -alF'
 alias cls='clear'
 alias update='sudo apt update && sudo apt upgrade -y'
+alias fetch='soadium-fetch'
 
 # Editors
 export EDITOR='code'

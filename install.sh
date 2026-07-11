@@ -2,29 +2,36 @@
 set -e
 
 # Soadium OS Installer
-# A Custom Developer-Focused Ubuntu Configuration
+# A clean, stable, developer-first Ubuntu configuration.
 
-# Colors
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-BLUE='\033[0;34m'
+# Brand colors (256-color with plain fallback handled by terminals)
+IR='\033[38;5;99m'    # Iris
+IL='\033[38;5;111m'   # Iris light
+CY='\033[38;5;51m'    # Electron cyan
+FL='\033[38;5;220m'   # Sodium flame
+TX='\033[38;5;253m'   # Text
+MU='\033[38;5;244m'   # Muted
+GR='\033[38;5;114m'   # Success green
+RD='\033[38;5;203m'   # Error red
+BD='\033[1m'
 NC='\033[0m'
 
 clear
-echo -e "${BLUE}"
-echo "   _____   ____  ___    ____  ____  __  ____  ___ "
-echo "  / ___/  / __ \/   |  / __ \/  _/ / / / /  |/  / "
-echo "  \__ \  / / / / /| | / / / // /  / / / / /|_/ /  "
-echo " ___/ / / /_/ / ___ |/ /_/ // /  / /_/ / /  / /   "
-echo "/____/  \____/_/  |_/_____/___/  \____/_/  /_/    "
-echo "                                                  "
-echo -e "${NC}"
-echo "Welcome to Soadium OS Installer."
-echo "This will modify your system configurations, install packages, and change themes."
-echo "Please ensure you have internet connection and sudo privileges."
-echo ""
-read -p "Press [Enter] to continue or Ctrl+C to abort..."
-echo ""
+echo
+echo -e "  ${IR}    ▗▄▄▄▄▄▄▄▄▖${NC}"
+echo -e "  ${IR}   ▟▛        ▜▙${NC}"
+echo -e "  ${IL}  ▟▛   ${FL}▄▄▄▄${IL}   ▜▙${NC}       ${BD}${TX}S O A D I U M   O S${NC}"
+echo -e "  ${IL} ▐▌    ${FL}█▄▄▄${IL}    ▐▌${NC}"
+echo -e "  ${CY} ▐▌    ${FL}▄▄▄█${CY}    ▐▌${NC}      ${MU}Developer-first · Stable · Clean${NC}"
+echo -e "  ${CY}  ▜▙   ${FL}▀▀▀▀${CY}   ▟▛${NC}       ${MU}Na · 11 · github.com/ssoad/Soadium${NC}"
+echo -e "  ${CY}   ▜▙        ▟▛${NC}"
+echo -e "  ${CY}    ▝▀▀▀▀▀▀▀▀▘  ${FL}●${NC}"
+echo
+echo -e "  ${TX}This will install packages, apply themes, and configure your system.${NC}"
+echo -e "  ${MU}Requires: Ubuntu 24.04+, internet connection, sudo privileges.${NC}"
+echo
+read -p "  Press [Enter] to begin or Ctrl+C to abort... "
+echo
 
 # Check Sudo
 sudo -v
@@ -32,19 +39,34 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 LOG_FILE="$SCRIPT_DIR/install.log"
+: > "$LOG_FILE"
 
-echo -e "${BLUE}[*] Starting Installation... Logs at $LOG_FILE${NC}"
+STEPS=(
+    "0_privacy.sh|Privacy & Firewall"
+    "1_dev_ai.sh|Developer & AI Stack"
+    "2_ui.sh|Themes, Icons & Fonts"
+    "3_shell.sh|Zsh + Starship Shell"
+    "4_gnome.sh|GNOME Desktop Tuning"
+    "5_branding.sh|Soadium Identity"
+)
+TOTAL=${#STEPS[@]}
+FAILED=0
 
-# Function to run scripts
-run_script() {
-    local script_name=$1
-    echo -e "${BLUE}[*] Running $script_name...${NC}"
-    chmod +x "$SCRIPT_DIR/scripts/$script_name"
-    if "$SCRIPT_DIR/scripts/$script_name" >> "$LOG_FILE" 2>&1; then
-        echo -e "${GREEN}[✓] $script_name completed successfully.${NC}"
+echo -e "  ${MU}Log: $LOG_FILE${NC}"
+echo
+
+run_step() {
+    local n=$1 script=$2 label=$3
+    local start=$SECONDS
+    echo -ne "  ${IR}[${n}/${TOTAL}]${NC} ${TX}${label}${NC} ${MU}...${NC}"
+    chmod +x "$SCRIPT_DIR/scripts/$script"
+    if "$SCRIPT_DIR/scripts/$script" >> "$LOG_FILE" 2>&1; then
+        echo -e "\r  ${IR}[${n}/${TOTAL}]${NC} ${TX}${label}${NC} ${GR}✔${NC} ${MU}$((SECONDS - start))s${NC}      "
     else
-        echo -e "${RED}[X] $script_name failed! Check $LOG_FILE for details.${NC}"
-        read -p "Continue anyway? (y/n) " -n 1 -r
+        echo -e "\r  ${IR}[${n}/${TOTAL}]${NC} ${TX}${label}${NC} ${RD}✘ failed${NC}"
+        FAILED=1
+        echo -e "  ${MU}See $LOG_FILE for details.${NC}"
+        read -p "  Continue anyway? (y/n) " -n 1 -r
         echo
         if [[ ! $REPLY =~ ^[Yy]$ ]]; then
             exit 1
@@ -52,19 +74,24 @@ run_script() {
     fi
 }
 
-run_script "0_privacy.sh"
-run_script "1_dev_ai.sh"
-run_script "2_ui.sh"
-run_script "3_shell.sh"
-run_script "4_gnome.sh"
+i=1
+for entry in "${STEPS[@]}"; do
+    run_step "$i" "${entry%%|*}" "${entry##*|}"
+    i=$((i + 1))
+done
 
-echo ""
-echo -e "${GREEN}===========================================${NC}"
-echo -e "${GREEN}   Soadium OS Installation Complete!       ${NC}"
-echo -e "${GREEN}===========================================${NC}"
-echo "It is highly recommended to REBOOT your system now."
-echo ""
-read -p "Reboot now? (y/n) " -n 1 -r
+echo
+if [ "$FAILED" -eq 0 ]; then
+    echo -e "  ${CY}────────────────────────────────────────────${NC}"
+    echo -e "  ${FL}⬢${NC}  ${BD}${TX}Soadium OS is ready.${NC}"
+    echo -e "  ${CY}────────────────────────────────────────────${NC}"
+else
+    echo -e "  ${FL}⬢${NC}  ${TX}Finished with warnings - check $LOG_FILE${NC}"
+fi
+echo
+echo -e "  ${MU}Next:${NC} ${TX}reboot, open a terminal, run${NC} ${FL}soadium-fetch${NC}"
+echo
+read -p "  Reboot now? (y/n) " -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     sudo reboot

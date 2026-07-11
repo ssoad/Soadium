@@ -96,6 +96,27 @@ cp /etc/resolv.conf "$SQUASH_DIR/etc/"
 echo -e "${GREEN}[*] Injecting Soadium resources...${NC}"
 cp -r profile/filesystem/* "$SQUASH_DIR/" 2>/dev/null || true
 
+# Inject brand identity (logo, wallpaper, fetch tool, installer branding)
+echo -e "${GREEN}[*] Injecting Soadium brand identity...${NC}"
+REPO_ROOT="$BUILDER_DIR/.."
+install -d "$SQUASH_DIR/usr/share/soadium" \
+           "$SQUASH_DIR/usr/share/backgrounds/soadium" \
+           "$SQUASH_DIR/usr/local/bin" \
+           "$SQUASH_DIR/etc/calamares/branding/soadium" \
+           "$SQUASH_DIR/usr/share/plymouth/themes/soadium"
+install -m 644 "$REPO_ROOT/branding/logo.svg"      "$SQUASH_DIR/usr/share/soadium/logo.svg"
+install -m 644 "$REPO_ROOT/branding/logo-mark.svg" "$SQUASH_DIR/usr/share/soadium/logo-mark.svg"
+install -m 644 "$REPO_ROOT/branding/wallpaper.svg" "$SQUASH_DIR/usr/share/backgrounds/soadium/soadium-wallpaper.svg"
+install -m 755 "$REPO_ROOT/bin/soadium-fetch"      "$SQUASH_DIR/usr/local/bin/soadium-fetch"
+# Calamares: settings + branding component (images resolved relative to branding dir)
+install -m 644 "$REPO_ROOT/resources/calamares/settings.conf" "$SQUASH_DIR/etc/calamares/settings.conf"
+cp -r "$REPO_ROOT/resources/calamares/branding/soadium/." "$SQUASH_DIR/etc/calamares/branding/soadium/"
+install -m 644 "$REPO_ROOT/branding/logo.svg"      "$SQUASH_DIR/etc/calamares/branding/soadium/logo.svg"
+install -m 644 "$REPO_ROOT/branding/logo-mark.svg" "$SQUASH_DIR/etc/calamares/branding/soadium/logo-mark.svg"
+# Plymouth boot splash (logo.png is rendered in the chroot below)
+install -m 644 "$REPO_ROOT/resources/plymouth/soadium.plymouth" "$SQUASH_DIR/usr/share/plymouth/themes/soadium/"
+install -m 644 "$REPO_ROOT/resources/plymouth/soadium.script"   "$SQUASH_DIR/usr/share/plymouth/themes/soadium/"
+
 # Bind mounts
 mount --bind /dev "$SQUASH_DIR/dev"
 mount --bind /run "$SQUASH_DIR/run"
@@ -121,7 +142,19 @@ apt-get install -y \
     build-essential pkg-config \
     python3 python3-pip python3-venv pipx \
     gnome-tweaks gnome-shell-extension-manager \
-    ufw
+    ufw librsvg2-bin
+
+# Compile Soadium desktop defaults (wallpaper, dark mode, dock favorites)
+glib-compile-schemas /usr/share/glib-2.0/schemas/ || true
+
+# Render Plymouth logo and activate the Soadium boot splash (best effort)
+if command -v rsvg-convert > /dev/null; then
+    rsvg-convert -w 220 -h 220 /usr/share/soadium/logo-mark.svg \
+        -o /usr/share/plymouth/themes/soadium/logo.png || true
+    if [ -f /usr/share/plymouth/themes/soadium/logo.png ] && command -v plymouth-set-default-theme > /dev/null; then
+        plymouth-set-default-theme soadium || true
+    fi
+fi
 
 # Clean up
 apt-get autoremove -y

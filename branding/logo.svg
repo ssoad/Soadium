@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 420" width="1280" height="420">
+  <!-- Soadium OS full logo lockup: mark + wordmark -->
+  <defs>
+    <linearGradient id="hexStroke" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6366F1"/>
+      <stop offset="1" stop-color="#22D3EE"/>
+    </linearGradient>
+    <linearGradient id="essStroke" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#A5B4FC"/>
+      <stop offset="1" stop-color="#22D3EE"/>
+    </linearGradient>
+    <linearGradient id="wordmark" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#E2E8F0"/>
+      <stop offset="1" stop-color="#A5B4FC"/>
+    </linearGradient>
+    <radialGradient id="flameGlow">
+      <stop offset="0" stop-color="#FACC15" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#FACC15" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="badgeGlow" cx="0.5" cy="0.42" r="0.75">
+      <stop offset="0" stop-color="#1E2547"/>
+      <stop offset="1" stop-color="#0B1021"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Self-contained dark card so the lockup works on any background -->
+  <rect x="4" y="4" width="1272" height="412" rx="44"
+        fill="#0B1021" stroke="#1E2547" stroke-width="2"/>
+
+  <!-- Mark -->
+  <g transform="translate(56,4) scale(0.8)">
+    <polygon points="256,46 437.9,151 437.9,361 256,466 74.1,361 74.1,151"
+             fill="url(#badgeGlow)" stroke="url(#hexStroke)"
+             stroke-width="22" stroke-linejoin="round"/>
+    <ellipse cx="256" cy="260" rx="150" ry="56" fill="none"
+             stroke="#3B4368" stroke-width="6"
+             transform="rotate(-24 256 260)"/>
+    <path d="M 316 200 A 60 60 0 1 0 256 260 A 60 60 0 1 1 196 320"
+          fill="none" stroke="url(#essStroke)"
+          stroke-width="34" stroke-linecap="round"/>
+    <circle cx="393" cy="221" r="36" fill="url(#flameGlow)"/>
+    <circle cx="393" cy="221" r="14" fill="#FACC15"/>
+    <circle cx="119" cy="299" r="9" fill="#22D3EE"/>
+  </g>
+
+  <!-- Wordmark -->
+  <text x="500" y="235"
+        font-family="Inter, 'SF Pro Display', 'Segoe UI', Ubuntu, system-ui, sans-serif"
+        font-size="126" font-weight="800" letter-spacing="8"
+        fill="url(#wordmark)">SOADIUM</text>
+
+  <!-- Tagline -->
+  <text x="506" y="300"
+        font-family="'JetBrains Mono', 'Ubuntu Mono', monospace"
+        font-size="34" letter-spacing="10"
+        fill="#64748B">DEVELOPER OS</text>
+  <text x="506" y="300" dx="470"
+        font-family="'JetBrains Mono', 'Ubuntu Mono', monospace"
+        font-size="34" letter-spacing="6"
+        fill="#FACC15">Na·11</text>
+</svg>

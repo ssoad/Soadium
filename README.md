@@ -1,6 +1,15 @@
-# Soadium OS
+<p align="center">
+  <img src="branding/logo.svg" alt="Soadium OS" width="520">
+</p>
 
-**Soadium OS** is a premium, developer-focused Linux experience based on Ubuntu. It provides a polished GNOME desktop interface, pre-configured AI/Dev tools, and a distinct visual identity.
+<p align="center">
+  <b>Developer-first · Stable · Clean</b><br>
+  <sub>Soadium = <i>ssoad</i> + <i>sodium</i> (Na · 11) — the logo's yellow electron is the color sodium burns.</sub>
+</p>
+
+---
+
+**Soadium OS** is a premium, developer-focused Linux experience based on Ubuntu. It provides a polished GNOME desktop interface, pre-configured AI/Dev tools, and a distinct visual identity — from boot splash to shell prompt.
 
 Soadium works in two ways:
 1.  **Soadium OS (Distro)**: A standalone, bootable OS (ISO) that installs Soadium from scratch.
@@ -50,18 +59,36 @@ Generate a bootable `soadium-os.iso` to install on bare metal. Ideally run this 
 
 - **`install.sh`**: The "Overlay" installer script for existing systems.
 - **`versions.env`**: Single source of truth for every pinned stable version.
+- **`branding/`**: The Soadium identity — logo, wallpaper, [brand palette](branding/PALETTE.md).
+- **`bin/`**: Soadium tools.
+    - `soadium-fetch`: Zero-dependency branded system-info tool for the terminal.
 - **`builder/`**: Logic for unpacking/repacking the Ubuntu ISO.
     - `build_distro.sh`: Main remastering script.
 - **`profile/`**: The "Concept" of the OS. Files here are injected into the ISO.
-    - `filesystem/`: Overlays for `/etc`, `/usr`, etc.
+    - `filesystem/`: Overlays for `/etc`, `/usr`, etc. (incl. desktop defaults).
 - **`resources/`**: Configuration assets.
-    - `calamares/`: Settings for the OS installer GUI.
+    - `calamares/`: Settings + Soadium branding/slideshow for the OS installer GUI.
+    - `plymouth/`: Soadium boot splash theme.
+    - `starship/`: Soadium prompt theme.
 - **`scripts/`**: core setup logic used by both the Overlay and Distro builder.
     - `0_privacy.sh`: Disables telemetry, firewall, Brave (stable channel).
     - `1_dev_ai.sh`: Installs VS Code, Docker CE, GitHub CLI, Node.js LTS, Ollama.
     - `2_ui.sh`: Sets up themes and fonts (tagged stable releases).
     - `3_shell.sh`: Zsh + Starship + plugins.
     - `4_gnome.sh`: GNOME desktop tuning.
+    - `5_branding.sh`: Applies the Soadium identity end-to-end.
+
+## 🎨 Identity & UX
+
+Every surface a developer touches carries the same design system
+(Deep Space `#0B1021`, Iris→Cyan gradients, Sodium Flame `#FACC15`):
+
+- **Logo**: an "S" drawn as an electron orbit inside a hexagonal crystal badge.
+- **Boot**: custom Plymouth splash — hexagon mark with sodium-flame progress dots.
+- **Desktop**: bespoke 4K wallpaper, dark-first GNOME, curated dock (Files, Brave, VS Code, Terminal, Settings).
+- **Terminal**: Soadium dark palette, JetBrains Mono Nerd Font, branded Starship prompt.
+- **`soadium-fetch`**: the branded system-info card (aliased to `fetch`).
+- **Installer**: Calamares themed with the Soadium sidebar and slideshow.
 
 ## 🔒 Stable-Version Policy
 
